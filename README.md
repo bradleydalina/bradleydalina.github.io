@@ -1,1 +1,2 @@
-# bradleydalina.github.io
+# bradley.dalina
+Personal Blog

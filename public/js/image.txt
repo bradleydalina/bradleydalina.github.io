@@ -1,0 +1,54 @@
+image-data="surefire-local-ph" class="view-image"
+image-data="afield-consulting-inc" class="view-image"
+image-data="lgu-maydolong" class="view-image"
+
+
+
+var viewImage = d.getElementsByClassName("view-image");
+var imageViewer = d.getElementById("image-viewer");
+if(viewImage){
+    for(let i =0; i < viewImage.length; i++){
+        viewImage[i].addEventListener("click", function(e){
+            e.preventDefault();
+            let webp_src = "images/"+this.getAttribute("image-data")+".webp";
+            let jpg_src = "images/"+this.getAttribute("image-data")+".jpg";
+            let pictureObj = imageViewer.querySelector("picture");
+            let imageCaption = imageViewer.querySelector(".caption-content > p");
+            imageCaption.innerHTML = this.getAttribute("image-data").replace(/-/gim, " ");
+            let closeViewer = d.getElementById('close-viewer');
+            if(closeViewer){
+                closeViewer.addEventListener("click", function(){
+                    imageViewer.style.display="none";
+                    imageViewer.style.backgroundColor="transparent";
+                    imageViewer.classList.remove("active");
+
+                    pictureObj.childNodes[0].setAttribute("srcset", "");
+                    pictureObj.childNodes[1].setAttribute("srcset", "");
+                    pictureObj.childNodes[2].setAttribute("src", "");
+                    imageCaption.innerHTML="";
+                });
+            }
+
+            if(imageViewer){
+                imageViewer.addEventListener("click", function(e){
+                    if(e.target == this){
+                        imageViewer.style.display="none";
+                        imageViewer.style.backgroundColor="transparent";
+                        imageViewer.classList.remove("active");
+
+                        pictureObj.childNodes[0].setAttribute("srcset", "");
+                        pictureObj.childNodes[1].setAttribute("srcset", "");
+                        pictureObj.childNodes[2].setAttribute("src", "");
+                        imageCaption.innerHTML="";
+                    }
+                });
+                imageViewer.classList.add("active");
+                imageViewer.style.display="flex";
+                imageViewer.style.backgroundColor="rgba(0,0,0,0.80)";
+                pictureObj.childNodes[0].setAttribute("srcset", webp_src);
+                pictureObj.childNodes[1].setAttribute("srcset", jpg_src);
+                pictureObj.childNodes[2].setAttribute("src", jpg_src);
+            }
+        });
+    }
+}

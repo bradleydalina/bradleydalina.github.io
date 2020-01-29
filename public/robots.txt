@@ -1,0 +1,21 @@
+User-agent: *
+
+Allow:/index.php
+Host: https//:bdalina54.github.io/
+#Sitemap: https//:bdalina54.github.io/sitemap.xml
+
+Disallow: /css/
+Noindex: /css/
+
+Disallow: /js/
+Noindex: /js/
+
+Disallow: /images/
+Noindex: /images/
+
+Disallow: /fonts/
+Noindex: /fonts/
+
+
+Disallow: /robots.txt
+Noindex: /robots.txt

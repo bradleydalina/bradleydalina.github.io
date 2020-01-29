@@ -1,0 +1,14 @@
+User-agent: *
+
+Allow:/index.php
+Host: https//:www.bradley.dalina.tk/
+#Sitemap: https//:www.bradley.dalina.tk/sitemap.xml
+
+Disallow: /assets/css/
+Noindex: /assets/css/
+
+Disallow: /assets/js/
+Noindex: /assets/js/
+
+Disallow: /robots.txt
+Noindex: /robots.txt
