@@ -9,24 +9,6 @@
 	    emailjs.init('G28XkE_UIcHLaubLE');
 	})();
 	</script>
-	<script type="text/javascript">
-		window.onload = function() {
-			console.log("working");
-			document.getElementById('contact-form').addEventListener('submit', function(event) {
-				console.log("Second Working");
-			event.preventDefault();
-			// generate a five digit number for the contact_number variable
-			this.contact_number.value = Math.random() * 100000 | 0;
-			// these IDs from the previous steps
-			emailjs.sendForm('contact', 'Gmail', this)
-			    .then(function() {
-				console.log('SUCCESS!');
-			    }, function(error) {
-				console.log('FAILED...', error);
-			    });
-			});
-		}
-	</script>
         <script src="js/google-analytics/ga-lite.min.js" async></script>
 	<script>
 	var galite = galite || {};
@@ -315,16 +297,24 @@
                 </figure>
             </div>
         </div>
-        <!-- Load Facebook SDK for JavaScript -->
-        <div id="fb-root"></div>
-        <!-- Your customer chat code -->
-        <div class="fb-customerchat"
-        attribution=setup_tool
-        theme_color="#0084ff"
-        page_id="393315407889414"
-        logged_in_greeting="Hi!"
-        logged_out_greeting="Hi!">
-        </div>
+	<script type="text/javascript">
+		window.onload = function() {
+			console.log("working");
+			document.getElementById('contact-form').addEventListener('submit', function(event) {
+				console.log("Second Working");
+			event.preventDefault();
+			// generate a five digit number for the contact_number variable
+			this.contact_number.value = Math.random() * 100000 | 0;
+			// these IDs from the previous steps
+			emailjs.sendForm('contact', 'Gmail', this)
+			    .then(function() {
+				console.log('SUCCESS!');
+			    }, function(error) {
+				console.log('FAILED...', error);
+			    });
+			});
+		}
+	</script>
         <!-- attribution=install_email -->
         <script src="js/modernizr-custom.js" defer></script>
         <script rel="nofollow" src="js/bradley-dalina.js" type="text/javascript" defer language="javascript"></script>
