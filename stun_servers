@@ -1,0 +1,954 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.pubnub.com/pubnub-3.7.14.min.js"></script>
+<script src="http://cdn.pubnub.com/webrtc/webrtc.js"></script>
+
+<script>
+// Last Test: 01-Jul-2021 12:15 PM
+let servers = [
+    "iphone-stun.strato-iphone.de:3478",
+    "numb.viagenie.ca:3478",
+    "stun.12connect.com:3478",
+    "stun.12voip.com:3478",
+    "stun.1und1.de:3478",
+    "stun.3cx.com:3478",
+    "stun.acrobits.cz:3478",
+    "stun.actionvoip.com:3478",
+    "stun.advfn.com:3478",
+    "stun.altar.com.pl:3478",
+    "stun.antisip.com:3478",
+    "stun.avigora.fr:3478",
+    "stun.bluesip.net:3478",
+    "stun.cablenet-as.net:3478",
+    "stun.callromania.ro:3478",
+    "stun.callwithus.com:3478",
+    "stun.cheapvoip.com:3478",
+    "stun.cloopen.com:3478",
+    "stun.commpeak.com:3478",
+    "stun.cope.es:3478",
+    "stun.counterpath.com:3478",
+    "stun.counterpath.net:3478",
+    "stun.dcalling.de:3478",
+    "stun.demos.ru:3478",
+    "stun.dus.net:3478",
+    "stun.easycall.pl:3478",
+    "stun.easyvoip.com:3478",
+    "stun.ekiga.net:3478",
+    "stun.epygi.com:3478",
+    "stun.etoilediese.fr:3478",
+    "stun.faktortel.com.au:3478",
+    "stun.freecall.com:3478",
+    "stun.freeswitch.org:3478",
+    "stun.freevoipdeal.com:3478",
+    "stun.gmx.de:3478",
+    "stun.gmx.net:3478",
+    "stun.halonet.pl:3478",
+    "stun.hoiio.com:3478",
+    "stun.hosteurope.de:3478",
+    "stun.infra.net:3478",
+    "stun.internetcalls.com:3478",
+    "stun.intervoip.com:3478",
+    "stun.ipfire.org:3478",
+    "stun.ippi.fr:3478",
+    "stun.ipshka.com:3478",
+    "stun.it1.hr:3478",
+    "stun.ivao.aero:3478",
+    "stun.jumblo.com:3478",
+    "stun.justvoip.com:3478",
+    "stun.l.google.com:19302",
+    "stun.linphone.org:3478",
+    "stun.liveo.fr:3478",
+    "stun.lowratevoip.com:3478",
+    "stun.lundimatin.fr:3478",
+    "stun.mit.de:3478",
+    "stun.miwifi.com:3478",
+    "stun.modulus.gr:3478",
+    "stun.myvoiptraffic.com:3478",
+    "stun.netappel.com:3478",
+    "stun.netgsm.com.tr:3478",
+    "stun.nfon.net:3478",
+    "stun.nonoh.net:3478",
+    "stun.nottingham.ac.uk:3478",
+    "stun.ooma.com:3478",
+    "stun.ozekiphone.com:3478",
+    "stun.pjsip.org:3478",
+    "stun.poivy.com:3478",
+    "stun.powervoip.com:3478",
+    "stun.ppdi.com:3478",
+    "stun.qq.com:3478",
+    "stun.rackco.com:3478",
+    "stun.rockenstein.de:3478",
+    "stun.rolmail.net:3478",
+    "stun.rynga.com:3478",
+    "stun.schlund.de:3478",
+    "stun.sigmavoip.com:3478",
+    "stun.sip.us:3478",
+    "stun.sipdiscount.com:3478",
+    "stun.sipgate.net:10000",
+    "stun.sipgate.net:3478",
+    "stun.siplogin.de:3478",
+    "stun.sipnet.net:3478",
+    "stun.sipnet.ru:3478",
+    "stun.sippeer.dk:3478",
+    "stun.siptraffic.com:3478",
+    "stun.sma.de:3478",
+    "stun.smartvoip.com:3478",
+    "stun.smsdiscount.com:3478",
+    "stun.solcon.nl:3478",
+    "stun.solnet.ch:3478",
+    "stun.sonetel.com:3478",
+    "stun.sonetel.net:3478",
+    "stun.sovtest.ru:3478",
+    "stun.srce.hr:3478",
+    "stun.stunprotocol.org:3478",
+    "stun.t-online.de:3478",
+    "stun.tel.lu:3478",
+    "stun.telbo.com:3478",
+    "stun.tng.de:3478",
+    "stun.twt.it:3478",
+    "stun.uls.co.za:3478",
+    "stun.unseen.is:3478",
+    "stun.usfamily.net:3478",
+    "stun.viva.gr:3478",
+    "stun.vivox.com:3478",
+    "stun.vo.lu:3478",
+    "stun.voicetrading.com:3478",
+    "stun.voip.aebc.com:3478",
+    "stun.voip.blackberry.com:3478",
+    "stun.voip.eutelia.it:3478",
+    "stun.voipblast.com:3478",
+    "stun.voipbuster.com:3478",
+    "stun.voipbusterpro.com:3478",
+    "stun.voipcheap.co.uk:3478",
+    "stun.voipcheap.com:3478",
+    "stun.voipgain.com:3478",
+    "stun.voipgate.com:3478",
+    "stun.voipinfocenter.com:3478",
+    "stun.voipplanet.nl:3478",
+    "stun.voippro.com:3478",
+    "stun.voipraider.com:3478",
+    "stun.voipstunt.com:3478",
+    "stun.voipwise.com:3478",
+    "stun.voipzoom.com:3478",
+    "stun.voys.nl:3478",
+    "stun.voztele.com:3478",
+    "stun.webcalldirect.com:3478",
+    "stun.wifirst.net:3478",
+    "stun.xtratelecom.es:3478",
+    "stun.zadarma.com:3478",
+    "stun1.faktortel.com.au:3478",
+    "stun1.l.google.com:19302",
+    "stun2.l.google.com:19302",
+    "stun3.l.google.com:19302",
+    "stun4.l.google.com:19302",
+    "stun.nextcloud.com:443",
+    "relay.webwormhole.io:3478"
+];
+
+
+/**
+ * Helper method to check if a STUN address is reachable.
+ * 
+ * @param address The Domain and port of the STUN server.
+ * @param _timeout The connection timeout (Limit when the connection takes too long). By default is 6 seconds.
+ * @returns 
+ */
+ function isStunAddressUp(address, _timeout){
+    _timeout = _timeout || 6000;
+    let response = {
+        myIpAddress: "",
+        stun: address,
+        ipv6Supported: true,
+        errors: []
+    };
+
+    let checker = new Promise((resolve, reject) => {
+        const pc = new RTCPeerConnection({
+            iceServers: [
+                {urls: `stun:${address}?transport=udp`}
+            ]
+        });
+        
+        pc.onicecandidate = (e) => {
+            if (!e.candidate) return;
+
+            // If a srflx candidate was found, notify that the STUN server works and provide the IP
+            if(e.candidate.type == "srflx"){
+                response.myIpAddress = e.candidate.address;
+                pc.close();
+            }
+        };
+        
+        // Log errors:
+        // Remember that in most of the cases, even if its working, you will find a STUN host lookup received error
+        // Chrome tried to look up the IPv6 DNS record for server and got an error in that process. However, it may still be accessible through the IPv4 address
+        pc.onicecandidateerror = (e) => {
+            if(e.address == "[0:0:0:x:x:x:x:x]"){
+                response.ipv6Supported = false;
+            }
+            
+            response.errors.push(e);
+        };
+        
+        pc.onclose = function () {
+            console.log("datachannel close");
+        };
+        
+        var dc = pc.createDataChannel('ourcodeworld-rocks');
+        pc.createOffer().then(offer => pc.setLocalDescription(offer));
+
+        dc.onclose = function (e) {
+            resolve(response);
+        };
+    });
+
+    let timeout = new Promise(function(resolve, reject){
+        setTimeout(function() {
+            reject(response);
+        }, _timeout);
+    });
+
+    return Promise.race([checker, timeout]);
+}
+
+
+isStunAddressUp("stun.ipfire.org:3478", 5000).then(function(result){
+    console.log(result);
+    // `result` Should contain an object like this:
+    //{
+    //    "myIpAddress": "[::ffff:xxx.xxx.xx.xx]",
+    //    "stun": "stun.ipfire.org:3478",
+    //    "ipv6Supported": true,
+    //    "errors": []
+    //}
+}).catch(function(err){
+    // Something went wrong
+    console.log(err);
+});
+
+
+
+let serversToTest = [
+    // ...
+    "numb.viagenie.ca:3478",
+    // ...
+];
+
+async function TestServers(servers){
+    let results = {
+        servers: [],
+        details: []
+    };
+
+    for(let i = 0; i < servers.length;i++){
+        let server = servers[i];
+
+        console.log(`== Testing: ${server}:`);
+
+        try{
+            let result = await isStunAddressUp(server, 5000);
+            console.log('%c Server functional! ', 'background: #222; color: #02ff00');
+
+            if(result.myIpAddress){
+                results.servers.push(server);
+                results.details.push({
+                    STUNAddress: server,
+                    ipv6Supported: result.ipv6Supported,
+                    lastTest: new Date().toDateString()
+                });
+            }
+        }catch(e){
+            if(e == "timeout"){
+                console.log('%c STUN Server connection timeout! ', 'background: #222; color: #ff0000');
+                return;
+            }
+
+            console.log('%c STUN Server unreachable! ', 'background: #222; color: #ff0000');
+        }
+
+        console.log(`======================`);
+    }
+
+    console.log(JSON.stringify(results, null, 4));
+}
+
+TestServers(servers);
+/*
+[
+        {
+            "STUNAddress": "iphone-stun.strato-iphone.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "numb.viagenie.ca:3478",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.12connect.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.12voip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.1und1.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.3cx.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.acrobits.cz:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.actionvoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.advfn.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.altar.com.pl:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.antisip.com:3478",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.avigora.fr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.bluesip.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.cablenet-as.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.callromania.ro:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.callwithus.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.cheapvoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.cloopen.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.commpeak.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.cope.es:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.counterpath.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.counterpath.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.dcalling.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.demos.ru:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.dus.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.easycall.pl:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.easyvoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ekiga.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.epygi.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.etoilediese.fr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.faktortel.com.au:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.freecall.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.freeswitch.org:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.freevoipdeal.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.gmx.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.gmx.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.halonet.pl:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.hoiio.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.hosteurope.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.infra.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.internetcalls.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.intervoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ipfire.org:3478",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ippi.fr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ipshka.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.it1.hr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ivao.aero:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.jumblo.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.justvoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.l.google.com:19302",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.linphone.org:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.liveo.fr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.lowratevoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.lundimatin.fr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.mit.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.miwifi.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.modulus.gr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.myvoiptraffic.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.netappel.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.netgsm.com.tr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.nfon.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.nonoh.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.nottingham.ac.uk:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ooma.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ozekiphone.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.pjsip.org:3478",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.poivy.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.powervoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.ppdi.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.qq.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.rackco.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.rockenstein.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.rolmail.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.rynga.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.schlund.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sigmavoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sip.us:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sipdiscount.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sipgate.net:10000",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sipgate.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.siplogin.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sipnet.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sipnet.ru:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sippeer.dk:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.siptraffic.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sma.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.smartvoip.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.smsdiscount.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.solcon.nl:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.solnet.ch:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sonetel.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sonetel.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.sovtest.ru:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.srce.hr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.stunprotocol.org:3478",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.t-online.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.tel.lu:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.telbo.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.tng.de:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.twt.it:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.uls.co.za:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.unseen.is:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.usfamily.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.viva.gr:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.vivox.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.vo.lu:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voicetrading.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voip.aebc.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voip.blackberry.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voip.eutelia.it:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipblast.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipbuster.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipbusterpro.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipcheap.co.uk:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipcheap.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipgain.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipgate.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipinfocenter.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipplanet.nl:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voippro.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipraider.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipstunt.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipwise.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voipzoom.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voys.nl:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.voztele.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.webcalldirect.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.wifirst.net:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.xtratelecom.es:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun.zadarma.com:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun1.faktortel.com.au:3478",
+            "ipv6Supported": false,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun1.l.google.com:19302",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun2.l.google.com:19302",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun3.l.google.com:19302",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        },
+        {
+            "STUNAddress": "stun4.l.google.com:19302",
+            "ipv6Supported": true,
+            "lastTest": "Thu Jul 01 2021"
+        }
+]*/
+</script>
