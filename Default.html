@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>WEBRTC.TOOLS WORKING SAMPLE</title>
+
+    <script>
+        var yourToken = "7645098fdb5b4f51b820466a5084f71ddac9b6f330e74aa08d75f0512da47eb6";//please replace it with your token
+        function CreateRoom() {//we do it in javascript but we recommend you to do it in server side
+            $.ajax({
+                async: false,
+                url: "https://webrtc.tools/api/GenerateRoom.aspx?action=AddRoom&Token="+yourToken, success: function (result) {
+                    //if (result == "ok") {
+                    if (result == "Wrong token") {
+                        $("#errorDiv").show();
+                        var str = "<p>You can't use this demo token. Please take a token from your account- inside Projects, and replace it here.</p>";
+                        $("#errorDiv").append(str);
+                        var replaceTokenImage = "<p><img src='replace-token4.png'></p>"
+                         $("#errorDiv").append(replaceTokenImage);
+                        return;
+                    }
+                    var res = JSON.parse(result)
+                    $("#RoomID").show();
+                    var str = "<p>Room id:</p>" + res.ChatGuid + "<label class='button' onclick='DeleteRoom(\"" + res.ChatGuid + "\")'>Delete this room</a><br>";
+                    $("#RoomID").append(str);
+                    $("#RoomID").append("<p>User 1:</p>" + res.UserGuid + "<br>");
+                    $("#RoomID").append("<p>User 2:</p>" + res.UserGuid2 + "<br>");
+
+
+                    $("#linkArea").show();
+
+
+                    $("#linkArea").append("<a href='videoConfiguration.html?ChatGuid=" + res.ChatGuid + "&UserGuid=" + res.UserGuid + "' target='_blank' >Click to open room 1</a><br><br>");
+                    $("#linkArea").append("<a href='videoConfiguration.html?ChatGuid=" + res.ChatGuid + "&UserGuid=" + res.UserGuid2 + "' target='_blank' >Click to open room 2</a><br>");
+                    $("#bellowSection").show();
+                    //}
+                }
+            });
+        }
+
+        function DeleteRoom(ChatGuid) {//we do it in javascript but we recommend you to do it in server side
+            $.ajax({
+                async: false,
+                url: "https://webrtc.tools/api/GenerateRoom.aspx?action=DeleteRoom&ChatGuid=" + ChatGuid + "&Token="+yourToken, success: function (result) {
+                    if (result == "OK") {
+                        $("#RoomID").hide();
+
+                    }
+                }
+            });
+        }
+    </script>
+    <style>
+        body {
+            background-color: #999;
+        }
+
+        div {
+            box-sizing: border-box;
+        }
+
+        .mainDiv {
+            width: 700PX;
+            margin: auto;
+            background-color: #fff;
+            height: 1200PX;
+            padding: 20px;
+        }
+
+            .mainDiv label {
+                display: block;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+        p {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #RoomID {
+            border: 1px solid #999;
+            padding: 5px;
+            margin-top: 20px;
+        }
+
+        #bellowSection {
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #274e27;
+            display: block;
+            width: 150px !important;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .TITLE {
+            COLOR: RED;
+            FONT-WEIGHT: BOLD;
+            BORDER-BOTTOM: 1PX SOLID #ec0c0c;
+            FONT-SIZE: 30PX;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="mainDiv">
+
+            <label>The below button will create an Ajax request to the API page and will return room details.</label>
+            <label>This sample is already fully automatic. You can edit it to your needs.</label>
+            <label>It includes WebRTC and signal mechanisms.</label>
+            <input id="Button1" type="button" value="Click here to create room" onclick="CreateRoom()" style="margin-bottom:10px"/>
+            <div id="errorDiv" style="display:none;background-color:red;color:white;padding:5px;box-sizing:border-box">
+
+
+            </div>
+            <div id="RoomID" style="display:none">
+                <label>This below data is the room Guid and 2 users Guid. Our API can generate rooms automatically. (here we generate them with Ajax on client side, but you can generate them also on server side)</label>
+
+            </div>
+
+            <div id="linkArea" style="display:none;margin-top:20px">
+                <label>The below links already include all room details. The 2 links include the same room ChatGuid and every other room includes its UserGuid.</label>
+            </div>
+            <div id="bellowSection" style="display:none;margin-top:20px">
+                <label class="TITLE">Events</label>
+                <label>Our system sends you an event to a function called GetAction(). You shouldn't delete this function, it has these inputs.</label>
+                <ul>
+                    <li>newUser:this event occurs when the other user is in the chat</li>
+                    <li>
+                        connectionStatus: this event shows you the WebRTC connections with the other user and it has a couple of sub statuses:
+                        <ul>
+                            <li>connecting: when connection is still not in connected status.</li>
+                            <li>connected: when connection is full between the 2 users.</li>
+                            <li>disconnected: when connection is disconnected with other user.</li>
+                            <li>failed: when connection is failed with other user.</li>
+                        </ul>
+                    </li>
+                    <li>Disconnect: when other user clicks Disconnect or closes the page.</li>
+                    <li>Conversation: when other user sends you a text.</li>
+                </ul>
+                <label class="TITLE">Action</label>
+                <label>Our system lets you send data to a function called SetAction() . You shouldn't delete this function, it has these inputs.</label>
+                <ul>
+                    <li>SendTxt: sends text from txtMessage input to other user. Other user will get it as an event in GetAction()==>Conversation.</li>
+                    <li>
+                        Connect: when Connect button is clicked. This will connect video and chat between 2 users.
+
+                    </li>
+                    <li>Disconnect: when Disconnect button is clicked. Other user will get it as an event in GetAction()==>Disconnect.</li>
+
+                </ul>
+                <label>If you looked at the code and tutorial and still don't understand, you can contact us in the chat on our website for free live support.</label>
+                <label><a href="https://webrtc.tools" target="_blank">Webrtc.Tools</a></label>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

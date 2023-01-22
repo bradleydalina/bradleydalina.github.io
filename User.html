@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Video chat webrtc.tools</title>
+    <link href="https://webrtc.tools/media/css/video.css" rel="stylesheet" />
+    <script src="https://webrtc.tools/nodeJS?fn=jquery.min,adapter,signalr"></script>
+    <script>
+        function GetAction(data) {//EVENT
+
+            switch (data.type) {
+                case "newUser":
+                    //the other user connect chat
+                    $("#event").append(data.type + "<br>");
+                    if (remoteVideoLoad == 0) {
+                        $(".otherUserOnLine").show();
+                        //remoteVideoLoad = 1;
+
+                    }
+                    break;
+                 case "RoomNotExists":
+                    //"RoomNotExists"
+                    //$("#event").append(data.type + "<br>");
+                    //if (remoteVideoLoad == 0) {
+                    //    $(".otherUserOnLine").show();
+                    //    //remoteVideoLoad = 1;
+
+                    //}
+                    break;
+                case "connectionStatus":
+                    if (data.answer == "connected") {
+                        $(".otherUserOnLine").hide();//the connection between the users is establish doesn't need to show the button any more
+                    }
+                    $("#event").append("connectionStatus: "+data.answer + "<br>");
+                    break;
+                case "Disconnect":
+                    $("#event").append(data.type + "<br>");
+                    //when other user click disconnect
+                    $(".otherUserOnLine").hide();
+                    remoteVideo.src = "";
+                    console.log("Other user disconnect");
+                    break;
+                case "Conversation":
+                    //new text arrived
+                    $("#event").append(data.type + "<br>");
+                    $("#chatMessages").append("<p class='chatLine'>" + data.name + "</p>");
+                    $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+                    break;
+                case "OnlineNotification":
+                    //you can send interval of notification
+                    break;
+                default:
+                    break;
+            }
+        }
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        var ChatGuid = urlParams.get('ChatGuid');
+        console.log(ChatGuid);
+        var UserGuid = urlParams.get('UserGuid');
+        var Name = 'Ant name you want';
+    </script>
+</head>
+<body>
+    <div id="chatArea">
+        <div class="chatAreaHeader">
+            <label id="callBtn" class="btn-success btn" style="cursor: pointer; display: none">
+                <i class="fa fa-video-camera" aria-hidden="true"></i>
+                Start interview
+            </label>
+            <label id="hangUpBtn" onclick="SetAction('Disconnect')" class="btn-success btn" style="cursor: pointer;">
+                Disconnect
+            </label>
+            <label class="otherUserOnLine" onclick="SetAction('Connect')" id="otherUserOnLine"><i class="fa fa-user-circle newMessage" aria-hidden="true"></i>Other user is in the room click to connect</label>
+        </div>
+        <div style="display: table; width: 100%">
+            <div id="leftVideoArea">
+                <div id="callPage" class="call-page">
+                    <video id="localVideo" autoplay="" muted=""></video>
+                    <video id="remoteVideo" autoplay=""></video>
+                    <!--<div class="row text-center">
+                        <div class="col-md-12">
+                            <input id="callToUsernameInput" type="text" placeholder="username to call" value="test" style="display: none">
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <div id="rightVideoArea">
+                <div class="chat">
+                    <div id="chatbox">
+                        <div id="chatMessages" style="height: 100%; float: right; overflow-y: overlay; width: 100%; direction: rtl; text-align: right; color: #111"></div>
+                    </div>
+                    <div id="addTextDiv">
+                        <input id="cmdSend" type="button" value="send" class="cmdSend" onclick="SetAction('SendTxt')">
+                        <input id="txtMessage" autocomplete="off" placeholder="Write here" class="txtMessage">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="event">
+
+
+        </div>
+    </div>
+</body>
+<script>
+    var localVideo = document.querySelector('#localVideo');
+    var remoteVideo = document.querySelector('#remoteVideo');
+</script>
+<script src="https://webrtc.tools/jquery?fn=clientAPI"></script>
+</html>
