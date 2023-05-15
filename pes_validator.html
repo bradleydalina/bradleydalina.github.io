@@ -10,20 +10,15 @@
    <table id="pes_reset_tbl" class="display">
         <thead>
             <tr>
-                <th>Rank/Name</th>
-                <th>Unit/Assignment</th>
-                <th>PES Email</th>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>PES_Email</th>
                 <th>Password</th>
                 <th>Date</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Rank/Name</td>
-                <td>Unit/Assignment</td>
-                <td>PES Email</td>
-                <td>Password</td>
-                <td>Date</td>
             </tr>
         </tbody>
     </table>
@@ -36,9 +31,9 @@
                $('#pes_reset_tbl').DataTable( {
                 data: data,
                 columns: [
-                    { data: 'rank/name' },
-                    { data: 'unit/assignment' },
-                    { data: 'pes email' },
+                    { data: 'rank' },
+                    { data: 'name' },
+                    { data: 'pes_email' },
                     { data: 'password' },
                     { data: 'date' }
                 ]
