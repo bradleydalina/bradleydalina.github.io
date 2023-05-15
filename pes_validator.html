@@ -26,5 +26,19 @@
             </tr>
         </tbody>
     </table>
+    <script>
+        $(document).ready(function(){
+            $('#pes_reset_tbl').DataTable( {
+                data: data,
+                columns: [
+                    { data: 'rank/name' },
+                    { data: 'unit/assignment' },
+                    { data: 'pes email' },
+                    { data: 'password' },
+                    { data: 'date' }
+                ]
+            } );
+        });
+    </script>
 </body>
 </html>
