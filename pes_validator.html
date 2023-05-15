@@ -30,14 +30,7 @@
               url: url,
               success: function(data){
                     $('#pes_reset_tbl').DataTable( {
-                                data: data.values,
-                                columns: [
-                                    { data: 'rank' },
-                                    { data: 'name' },
-                                    { data: 'pes_email' },
-                                    { data: 'password' },
-                                    { data: 'date' }
-                                ]
+                                data: data.values
                         } );
                 }
             });
