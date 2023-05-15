@@ -29,7 +29,7 @@
             $.ajax({
               url: url,
               success: function(data){
-                    delete data.values[0];
+                    data.values.splice(indexToRemove, numberToRemove);
                     const table_data = data.values;
                     $('#pes_reset_tbl').DataTable( {
                                 data: table_data
