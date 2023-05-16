@@ -32,7 +32,7 @@
                columnDefs: [{ targets: [0], visible: false,  },
                 {
                     render: function (data, type, row) {
-                       return '<strong>' + row[0] +' '+ data + '</strong>';
+                       return '<strong>' + data + '</strong>';
                     },
                     targets: 1,
                 },],
@@ -54,6 +54,20 @@
             )
         }        
         pesExtract();
+        
+        $('#pes_reset_tbl tbody').on('mouseenter', 'td', function () {
+            var colIdx = pesTable.cell(this).index().column;
+
+            $(pesTable.cells().nodes()).removeClass('highlight');
+            $(pesTable.column(colIdx).nodes()).addClass('highlight');
+        });
+        
+        pesTable.on('order.dt search.dt', function () {
+            let i = 1; 
+            pesTable.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
     </script>
 </body>
 </html>
