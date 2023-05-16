@@ -25,7 +25,7 @@
     <script>
         const pesUrl = ['https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/January_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/February_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/March_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/April_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/May_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k'];
         localStorage.setItem("pesData",JSON.stringify([]));
-        async pesExtract(){
+        async function pesExtract(){
             await Promise.all(
               pesUrl.map(async (url) => {
                 const response = await fetch(url);
