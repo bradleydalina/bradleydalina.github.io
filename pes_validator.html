@@ -23,20 +23,19 @@
         </tbody>
     </table>
     <script>
+        console.log('No Data..');
         const pesUrl = ['https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/January_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/February_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/March_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/April_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/May_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k'];
-        /*localStorage.setItem("pesData",[]);*/
         const pesTable = $('#pes_reset_tbl').DataTable( {
-               data: [] /*localStorage.pesData*/
+               data: []
          } );
         async function pesExtract(){
             await Promise.all(
               pesUrl.map(async (url) => {
                 const response = await fetch(url);
                 var data = await response.json();
-                /*let raw = localStorage.pesData;
-                raw.push(data.values); 
-                localStorage.pesData = raw;*/  
-                pesTable.clear().rows.add(data.values.splice(0, 1)).draw(); 
+                var pesChunks = data.values.splice(0, 1);
+                console.log('With Data..'+JSON.stringify(pesChunks));  
+                pesTable.clear().rows.add(pesChunks).draw(); 
               })
             )
         }        
