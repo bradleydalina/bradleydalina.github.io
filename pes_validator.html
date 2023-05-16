@@ -36,7 +36,7 @@
                 var pesChunks = data.values;
                 pesChunks.splice(0, 1);
                 console.log('With Data..'+JSON.stringify(pesChunks));  
-                pesTable.clear().rows.add(pesChunks).draw(); 
+                pesTable.rows.add(pesChunks).draw(); //clear()
               })
             )
         }        
