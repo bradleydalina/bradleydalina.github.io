@@ -29,13 +29,13 @@
                data: [],
                order: [[4, 'desc']],
                stateSave: true,
-               columnDefs: [
+               columnDefs: [{ targets: [0], visible: false,  },
                 {
                     render: function (data, type, row) {
                        return '<strong>' + row[0] +' '+ data + '</strong>';
                     },
                     targets: 1,
-                },{ visible: false, target: 0 },],
+                },],
                 lengthMenu: [
                     [50, 100, -1],
                     [50, 100, 'All'],
