@@ -7,7 +7,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 </head>
 <body>
-   <table id="pes_reset_tbl" class="display">
+   <table id="pes_reset_tbl" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>Rank</th>
@@ -26,7 +26,24 @@
         console.log('No Data..');
         const pesUrl = ['https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/January_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/February_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/March_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/April_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/May_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k'];
         const pesTable = $('#pes_reset_tbl').DataTable( {
-               data: []
+               data: [],
+               order: [[4, 'desc']],
+               stateSave: true,
+               columns: [{data: 'rank',},
+                {data: 'name',
+                    render: function (data) {
+                            return '<strong>' + data + '</strong>';
+                        }
+                        return data;
+                    },},
+                {data: 'pes_email',},
+                {data: 'password',},
+                {data: 'date',},
+                 ]
+                lengthMenu: [
+                    [50, 100, -1],
+                    [50, 100, 'All'],
+                ],         
          } );
         async function pesExtract(){
             await Promise.all(
