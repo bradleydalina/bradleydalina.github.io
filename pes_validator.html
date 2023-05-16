@@ -34,8 +34,9 @@
                 const response = await fetch(url);
                 var data = await response.json();
                 var pesChunks = data.values;
-                console.log('With Data..'+JSON.stringify(pesChunks.splice(0, 1)));  
-                pesTable.clear().rows.add(pesChunks.splice(0, 1)).draw(); 
+                pesChunks.splice(0, 1);
+                console.log('With Data..'+JSON.stringify(pesChunks));  
+                pesTable.clear().rows.add(pesChunks).draw(); 
               })
             )
         }        
