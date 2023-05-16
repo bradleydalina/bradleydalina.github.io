@@ -30,7 +30,7 @@
                order: [[4, 'desc']],
                stateSave: true,
                columns: [{data: 'rank',},
-                {data: 'name', render: function (data) { return '<strong>' + data + '</strong>'; },},
+                {data: 'name', render: function (data, type) { if (type === 'display') {return '<strong>' + data + '</strong>';}, return data; },},
                 {data: 'pes_email',},
                 {data: 'password',},
                 {data: 'date',},
