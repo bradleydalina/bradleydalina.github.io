@@ -25,6 +25,9 @@
     <script>
         const pesUrl = ['https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/January_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/February_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/March_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/April_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k','https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/May_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k'];
         localStorage.setItem("pesData",JSON.stringify([]));
+        const pesTable = $('#pes_reset_tbl').DataTable( {
+               data: JSON.parse(localStorage.pesData)
+         } );
         async function pesExtract(){
             await Promise.all(
               pesUrl.map(async (url) => {
@@ -33,6 +36,7 @@
                 let raw = JSON.parse(localStorage.pesData);
                 raw.push(data.values); 
                 localStorage.pesData = JSON.stringify(raw);  
+                pesTable.clear().rows.add(raw..splice(0, 1)).draw(); 
               })
             )
         }        
