@@ -9,9 +9,8 @@
 <body>
    <table id="pes_reset_tbl" class="display" style="width:100%">
         <thead>
-            <tr>
+            <tr>                
                 <th>No.</th>
-                <th>Rank</th>
                 <th>Name</th>
                 <th>PES_Email</th>
                 <th>Password</th>
@@ -30,10 +29,13 @@
                data: [],
                order: [[4, 'desc']],
                stateSave: true,
-               columnDefs: [{ targets: [0], visible: false,  },
+               columnDefs: [{render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        },targets:0,},
+                        { targets: [0], visible: false,  },
                 {
                     render: function (data, type, row) {
-                       return '<strong>' + data + '</strong>';
+                       return '<strong>' + row[0]+' '+data + '</strong>';
                     },
                     targets: 1,
                 },],
@@ -63,7 +65,7 @@
             $(pesTable.column(colIdx).nodes()).addClass('highlight');
         });
         
-        pesTable.on('order.dt search.dt', function () {
+        /*pesTable.on('order.dt search.dt', function () {
             let i = 1; 
             pesTable.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
                 this.data(i++);
