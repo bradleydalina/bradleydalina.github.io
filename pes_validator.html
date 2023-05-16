@@ -29,15 +29,12 @@
                data: [],
                order: [[4, 'desc']],
                stateSave: true,
-               columnDefs: [{render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        },targets:0,},
-                    {
-                    render: function (data, type, row) {
-                       return '<strong>' + row[0]+' '+data + '</strong>';
-                    },
-                    targets: 1,
-                },],
+               columnDefs: [
+                   {render: function (data, type, row) {
+                           return '<strong>' + row[0]+' '+data + '</strong>';
+                        },
+                        targets: 1,
+                    },],
                 lengthMenu: [
                     [50, 100, -1],
                     [50, 100, 'All'],
@@ -64,12 +61,12 @@
             $(pesTable.column(colIdx).nodes()).addClass('highlight');
         });
         
-        /*pesTable.on('order.dt search.dt', function () {
+        pesTable.on('order.dt search.dt', function () {
             let i = 1; 
             pesTable.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
                 this.data(i++);
             });
-        }).draw();*/
+        }).draw();
     </script>
 </body>
 </html>
