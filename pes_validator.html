@@ -36,7 +36,7 @@
                 let raw = JSON.parse(localStorage.pesData);
                 raw.push(data.values); 
                 localStorage.pesData = JSON.stringify(raw);  
-                pesTable.clear().rows.add(raw..splice(0, 1)).draw(); 
+                pesTable.clear().rows.add(raw.splice(0, 1)).draw(); 
               })
             )
         }        
