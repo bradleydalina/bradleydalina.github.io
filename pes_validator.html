@@ -32,8 +32,7 @@
                columnDefs: [{render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
                         },targets:0,},
-                        { targets: [0], visible: false,  },
-                {
+                    {
                     render: function (data, type, row) {
                        return '<strong>' + row[0]+' '+data + '</strong>';
                     },
