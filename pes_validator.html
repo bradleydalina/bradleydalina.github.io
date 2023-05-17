@@ -169,7 +169,7 @@ async function pesExtract() {
           console.log(JSON.stringify(response));
           loopTilSucceed(url);
         }
-        
+        else{
         var data = await response.json();
         var pesChunks = data.values;
         pesChunks.splice(0, 1);
@@ -203,6 +203,7 @@ async function pesExtract() {
                 select.append('<option value="' + d + '">' + d + '</option>');
               });
           });
+	}
       }
 
       loopTilSucceed(url);      
