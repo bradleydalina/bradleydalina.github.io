@@ -3,9 +3,12 @@
 
 <head>
 	<title>PNP EMAIL SYSTEM (PES) PASSWORD RESET FILTER</title>
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css">
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+
+
 	<style type="text/css">
 		@font-face {
 			font-family: 'Montserrat';
@@ -46,8 +49,8 @@
 			src: url(//fonts.gstatic.com/s/montserrat/v25/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXo.woff2)format('woff2');
 			unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 		}
-        
-        		html, body{
+		
+				html, body{
 			font: normal normal 13px 'Montserrat', serif;
       font-weight:400;
       background:#ccc;
@@ -84,13 +87,20 @@
       background:#fff; 
       overflow: hidden; 
     } 
-    #pes_reset_tbl{margin-bottom:8px;}
+    #pes_reset_tbl{margin-bottom:20px;}/*8px;*/
     h1{
       font: normal normal 30px 'Montserrat', serif;
 	    font-weight:500;
       margin:0 0 15px 0;
       padding:0;
       }
+
+     #pes_filter_date{
+       border:solid 1px #aaa;
+       padding:5px;
+       border-radius:3px;
+       margin-right:10px;
+     } 
 	</style>
 </head>
 
@@ -102,23 +112,32 @@
       <table id="pes_reset_tbl" class="display" style="width:100%">
         <thead>
           <tr>
-            <th>No.</th>
+            <th data-orderable="false">No.</th>
             <th>Name</th>
             <th>PES_Email</th>
             <th>Password</th>
-            <th>Date</th>
+						<th data-orderable="false">Date</th>
           </tr>
         </thead>
         <tbody>
           <tr>
           </tr>
         </tbody>
+				<tfoot>
+					<tr>
+						<th>No.</th>
+						<th>Name</th>
+						<th>PES_Email</th>
+						<th>Password</th>
+						<th>Date</th>
+					</tr>
+				</tfoot>
       </table>
       </div>
     </div>
   <div>
       <script>
-          console.log('No Data..');
+          var failedUrl=[];
 const pesUrl = ['https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/January_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k', 'https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/February_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k', 'https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/March_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k', 'https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/April_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k', 'https://sheets.googleapis.com/v4/spreadsheets/1kdp0CNhxJZf7Bv2knQZouMftDVL5JYZVr1KMELOPYBU/values/May_2023?alt=json&key=AIzaSyBDSW_1Tq-o6g8doLQf7ZUaRyBUu5zzx8k'];
 const pesTable = $('#pes_reset_tbl').DataTable({
   data: [],
@@ -127,7 +146,7 @@ const pesTable = $('#pes_reset_tbl').DataTable({
   paging: true,
   order: [[4, 'desc']],
   stateSave: true,
-  columnDefs: [
+  columnDefs: [ 
     {
       render: function (data, type, row) {
         return '<strong>' + row[0] + ' ' + data + '</strong>';
@@ -137,17 +156,57 @@ const pesTable = $('#pes_reset_tbl').DataTable({
   lengthMenu: [
     [50, 100, -1],
     [50, 100, 'All'],
-  ],
+  ], 
 });
+
 async function pesExtract() {
   await Promise.all(
     pesUrl.map(async (url) => {
-      const response = await fetch(url);
-      var data = await response.json();
-      var pesChunks = data.values;
-      pesChunks.splice(0, 1);
-      console.log('With Data..' + JSON.stringify(pesChunks));
-      pesTable.rows.add(pesChunks).draw(); //clear()
+
+      async function loopTilSucceed(url){
+        const response = await fetch(url);
+        if (response.status!=200 || response.status > 200){
+          console.log(JSON.stringify(response));
+          loopTilSucceed(url);
+        }
+        
+        var data = await response.json();
+        var pesChunks = data.values;
+        pesChunks.splice(0, 1);
+        //console.log('With Data..' + JSON.stringify(pesChunks));
+        pesTable.rows.add(pesChunks).draw(); //clear()
+
+        pesTable
+          .columns("4")
+          .every(function () {
+            var column = this;
+            if ($("#pes_reset_tbl_filter #filter_by_date")) {
+              $("#pes_reset_tbl_filter #filter_by_date").remove();
+            }
+            $('<label id="filter_by_date">Filter by date: </label>').prependTo($("#pes_reset_tbl_filter"));
+
+            if ($("#filter_by_date #pes_filter_date")) {
+              $("#filter_by_date #pes_filter_date").remove();
+            }
+
+            var select = $('<select id="pes_filter_date"><option value="">Select date...</option></select>').appendTo($("label#filter_by_date"))
+              .on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                column.search(val ? '^' + val + '$' : '', true, false).draw();
+              });
+
+            column
+              .data()
+              .unique()
+              .sort()
+              .each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>');
+              });
+          });
+      }
+
+      loopTilSucceed(url);      
+      
     })
   )
 }
@@ -166,7 +225,6 @@ pesTable.on('order.dt search.dt', function () {
     this.data(i++);
   });
 }).draw();
-      </script>
-</body>
-
+   </script>
+ </body>
 </html>
