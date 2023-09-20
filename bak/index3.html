@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Title of the document</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM+Sans:regular,500,700" media="all">
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>-->
+	<script src="html2canvas1.min.js"></script>
+	<!--<script src="html2canvas.min.js"></script>-->
+	
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+    <style>	  
+      html,
+      body {
+        height: 100%;
+		width:100%;
+		margin: 0;
+		padding:0;
+		display:block;
+		font-family: 'DM Sans',sans-serif;
+      }
+      body {	
+		/*transition: background-color 5s ease;
+		-webkit-transition: background-color 5s ease-out;
+	   -moz-transition: background-color 5s ease-out;
+	   -o-transition: background-color 5s ease-out;
+	   transition: background-color 5s ease-out;*/
+		background:#ddd;
+		animation: changing-weather;
+		animation-duration: 30s;
+		animation-timing-function: ease-out;
+		animation-iteration-count: infinite;    
+		animation-play-state: running;
+      }
+	  @-webkit-keyframes changing-weather {
+		0%{background-color:#ddd;}
+			35%{background-color:#b8e7fd;}
+			55%{background-color:#7da3bf;}
+			75%{background-color:#1b2a3c;}
+			95%{background-color:#fdf8b8;}
+			100%{background-color:#ddd;}
+		}
+
+		@keyframes changing-weather {
+			0%{background-color:#ddd;}
+			35%{background-color:#b8e7fd;}
+			55%{background-color:#7da3bf;}
+			75%{background-color:#1b2a3c;}
+			95%{background-color:#fdf8b8;}
+			100%{background-color:#ddd;}
+		}
+	  .doc-wrap{
+		display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+		align-items:center;
+		justify-content:center;
+		position:relative;
+		background-image: url(https://drive.google.com/uc?id=1iKt7R7NCv79ZR83sgqsXJ5A39K68adHc);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+	  }
+	  .doc-a4{
+		background-color:#ffffff;
+		padding:48px;
+		width:992px;
+		height:1403.2px;
+		margin:48px auto;
+		position: relative;
+		z-index:99;
+		box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 35%);
+	  }
+	  .doc-a4.with-before-after::before {
+			right: -35%;
+			top: 0;
+			width: 35%;
+			height: 100%;
+			content: "";
+			position: absolute;
+			background-repeat: no-repeat;
+			background-image: url(https://drive.google.com/uc?id=1wexQ8UOOqRal44XE1pbQcVkRCuxx8e3v);
+			z-index: 9;
+			background-size: 109%;
+			background-position: 0% -6%;
+		}
+		.doc-a4.with-before-after::after {
+			left: -35%;
+			top: 0;
+			width: 35%;
+			height: 100%;
+			content: "";
+			position: absolute;
+			background-repeat: no-repeat;
+			background-image: url(https://drive.google.com/uc?id=1gkUJ-zFLgdK_N3d5YqKHSF0lYicPAlv7);
+			background-size: 109%;
+			background-position: 101% 108%;
+		}
+	  .doc-header,.doc-data{
+		display:flex;		
+		justify-content: space-between;
+		flex-basis: content;
+	  }
+	  .doc-header{align-items:center;}
+	  .doc-data{align-items:start;}
+	  .doc-photo-container, .doc-left{width:28.9%; padding-bottom:24px;}
+	  .doc-photo {			
+			background-color:#fff;
+			position:relative;
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			border-radius:100%;
+			height:200px; 
+			width:200px;
+		}
+	   .doc-photo::before{
+			content:"";
+			position:absolute;top:0; bottom:0; left:0; right:0;
+			background-image:url(images/full-size.jpg);
+			background-size:cover;
+			z-index:999;
+			border-radius:50%;
+		}
+	  .doc-left{color:#fff;}
+	  .doc-intro-container, .doc-right{width:71.1%; padding-bottom:24px;  padding-left:32px;}
+	  
+	  .doc-intro-container h1{text-transform:uppercase; font-weight:normal;font-size:36px; margin-bottom: 4px;margin-top:0;}
+	  .doc-intro-container h5{text-transform:uppercase;font-size: 16px; margin-top:0; color:#898989;}
+	  .doc-padding-bottom-30{padding-bottom:24px;}
+	  .doc-text-uppercase{text-transform:uppercase;}
+	  .doc-h2-title{text-transform:uppercase; margin-bottom:24px;}
+	  .doc-left .doc-h2-title{border-bottom:solid 1.6px #fff; color:#fff;}
+	  .doc-right .doc-h2-title{border-bottom: solid 1.6px #313849;}
+	  .doc-background{display:flex; position:absolute; height:100%; width:100%; bottom: 0;left: 0; z-index:-1;}
+	  .doc-left-background{ width:30%; background-color:#313849;}
+	  .doc-right-background{ width:70%; }
+	  
+	  ul{list-style:none; margin:0; padding:0; 
+		position:relative;}
+	  ul ul{
+		padding-left:17.6px);
+		list-style:circle;
+	  }
+	  
+	  ul li{padding: 4px 0; }
+	  .doc-left ul li{padding-right: calc(15px - 20%);}
+	  .doc-work-experience > ul{padding-left:50px; padding-bottom:24px;}
+	  .doc-work-experience > ul:last-child{padding-bottom:0px;}
+	  
+	  .doc-work-experience > ul::before{
+		content: "";
+		display: block;
+		border: solid 1.6px #313849;
+		width: 9.6px;
+		height: 9.6px;
+		border-radius: 50%;
+		position: absolute;
+		left: 0;
+		top: 6.4px;
+		background-color: #fff;
+		z-index: 1;
+	  }
+	  .doc-work-experience > ul::after{
+		content: "";
+		display: block;
+		width: 1px;
+		height: 100%;
+		position: absolute;
+		left: 6px;
+		top:6.4px;
+		background-color: #313849;
+	  }
+	  .doc-work-experience > ul:last-child::after{height:calc(100% - 16px);}
+	  .doc-education > ul > li strong{font-size:14.4px;}
+	  .doc-contact > ul > li i{margin-right:12px;}
+	  .doc-box {margin-bottom: 48px;}
+	  .doc-margin-bottom-40::after{display:block; margin-bottom:20px !important; content:" ";}
+	  .doc-references{display:flex; flex-wrap: wrap; align-items:start; justify-content:space-between;}
+	  .doc-references ul{white-space: nowrap; flex: 1 0 50%;
+		box-sizing: border-box;}
+	  .doc-controls {
+			position: absolute;
+			top: 36px;
+			right: 34px;
+		}
+		.doc-controls a{cursor:pointer; 
+				padding: 6px 8px;
+				color: #313849;
+				border-radius: 50%;
+			}
+	.html2canvas-container { width: 3000px !important; height: 3000px !important; }
+    </style>
+  </head>
+  <body>
+	<div class="doc-wrap">		
+		<div class="doc-a4 with-before-after">
+			<header class="doc-header">
+				<div class="doc-photo-container">
+					<div class="doc-photo">Photo Image</div>
+					<!--<img src="full-size.jpg" alt="doc-photo" class="doc-photo"/><!--https://dalina.tk/images/-->
+				</div>
+				<div class="doc-intro-container">
+					<div class="doc-controls">
+						<span><a href="javascript:void(0);" id="doc-download"><i class="fa fa-download"></i></a></span>
+						<span><a href="javascript:void(0);"><i class="fa fa-edit"></i></a></span>
+					</div>
+					<h1 class="doc-text-uppercase"><b>Bradley</b> B Dalina</h1>
+					<h5>Information Technology Specialist</h5>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut mauris elit. In quam dui, pulvinar eu ante eu, consequat faucibus velit. Pellentesque id egestas nibh, tristique ultricies sem. Proin ipsum massa, tincidunt non elit sed, malesuada porttitor eros. Donec at interdum lectus. In nec lacus nisi. Donec augue lorem.</p>
+				</div>
+			</header>
+			<section class="doc-data">
+				<aside class="doc-left">
+					<div class="doc-box">
+						<h2 class="doc-h2-title">Contact</h2>
+						<div class="doc-contact">
+							<ul>
+								<li><i class="fa fa-map-marker"></i>Brgy. Lumatod/Burak</li>
+								<li><i class="fa fa-map-marker"></i>Taft, Eastern Samar</li>
+								<li><i class="fa fa-phone"></i>+63-9691-889-323</li>
+								<li><i class="fa fa-envelope"></i>bradleydalina@gmail.com</li>
+								<li><i class="fa fa-globe"></i>https://wwww.dalina.tk/</li>
+							<ul>
+						</div>
+					</div>
+					<div class="doc-box">
+						<h2 class="doc-h2-title">Education</h2>
+						<div class="doc-education">
+							<ul class="doc-margin-bottom-40">
+								<li><strong>BS Information Technology</strong></li>
+								<li>ESSU - Main, Borongan City</li>
+								<li>2008 - 2013</li>
+							</ul>
+							<ul class="doc-margin-bottom-40">
+								<li><strong>Secondary</strong></li>
+								<li>ESSU - Maydolong, Eastern Samar</li>
+								<li>2004 - 2008</li>
+							</ul>
+							<ul>
+								<li><strong>Primary</strong></li>
+								<li>MCES - Maydolong, Eastern Samar</li>
+								<li>1998 - 2004</li>
+							</ul>
+						</div>
+					</div>
+					<div class="doc-box">
+						<h2 class="doc-h2-title">Skills</h2>
+						<div class="doc-skills">
+							<ul class="doc-margin-bottom-40">
+								<li><strong>Technical</strong></li>
+								<li>HTML5</li>
+								<li>CSS3 Bootstrap</li>
+								<li>PHP Core (OOP)</li>
+								<li>MVC Frameworks, Laravel & Codeigniter</li>
+								<li>Wordpress Themes & Plugins</li>
+								<li>Javascript, Jquery and other JS Frameworks</li>
+								<li>MySql, PDO</li>
+								<li>Graphics Design</li>
+								<li>Photo Enhancement</li>
+							</ul>
+						</div>
+					</div>					
+				</aside>
+				<main class="doc-right">					
+					<div class="doc-box">
+						<h2 class="doc-h2-title">Work Experience</h2>
+						<div class="doc-work-experience">
+							<ul class="doc-margin-bottom-40">
+								<li><strong>Surefire Local</strong> / Wordpress Developer</li>
+								<li>From 2019 to 2020</li>
+								<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut mauris elit. In quam dui, pulvinar eu ante eu, consequat faucibus velit. </li>
+								<li>
+									<ul>
+										<li>Ut accumsan purus ut arcu sagittis congue.</li>
+										<li>Donec varius erat non sem tincidunt, at vulputate</li> <li>ipsum maximus.</li>
+										<li>Nullam vehicula dui at molestie molestie.</li>
+										<li>Morbi facilisis nulla in lobortis semper.</li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="doc-margin-bottom-40">
+								<li><strong>Afield Consulting Inc</strong> / Senior System Engineer IV</li>
+								<li>From 2018 to 2019</li>
+								<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut mauris elit. In quam dui, pulvinar eu ante eu, consequat faucibus velit. </li>
+								<li>
+									<ul>
+										<li>Ut accumsan purus ut arcu sagittis congue.</li>
+										<li>Donec varius erat non sem tincidunt, at vulputate</li> <li>ipsum maximus.</li>
+										<li>Nullam vehicula dui at molestie molestie.</li>
+										<li>Morbi facilisis nulla in lobortis semper.</li>
+									</ul>
+								</li>
+							</ul>
+							<ul>
+								<li><strong>LGU-Maydolong</strong> / Casual Information Technology Specialist</li>
+								<li>From 2012 to 2015</li>
+								<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut mauris elit. In quam dui, pulvinar eu ante eu, consequat faucibus velit. </li>
+								<li>
+									<ul>
+										<li>Ut accumsan purus ut arcu sagittis congue.</li>
+										<li>Donec varius erat non sem tincidunt, at vulputate</li> <li>ipsum maximus.</li>
+										<li>Nullam vehicula dui at molestie molestie.</li>
+										<li>Morbi facilisis nulla in lobortis semper.</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="doc-box">
+						<h2 class="doc-h2-title">References</h2>
+						<div class="doc-references">
+							<ul class="doc-margin-bottom-40">
+								<li><strong>Julie Ann G Dalina</strong></li>
+								<li>BlueIS / Project Coordinator</li>
+								<li><strong>Phone</strong> +639000000000</li>
+								<li><strong>Email</strong> julieanndalina@gmail.com</li>
+							</ul>
+							<ul class="doc-margin-bottom-40">
+								<li><strong>Euphrosyne Leigh G Dalina</strong></li>
+								<li>BlueIS / Project Analyst</li>
+								<li><strong>Phone</strong> +639000000000</li>
+								<li><strong>Email</strong> euphrosynedalina@gmail.com</li>
+							</ul>
+						</div>
+					</div>
+				</main>
+			</section>
+			<div class="doc-background">
+				<div class="doc-left-background">
+				</div>
+				<div class="doc-right-background">
+				</div>
+			</div>
+		</div>
+	<div>
+	<script>
+			/*
+			function generatePDF() {
+				// Choose the element that your content will be rendered to.
+				const element = document.querySelector('.doc-a4');
+				// Choose the element and save the PDF for your user.
+				html2pdf().from(element).save();
+			}
+
+			docDownload.addEventListener('click', generatePDF);*/
+			/*function addScript(url) {
+				var script = document.createElement('script');
+				script.type = 'application/javascript';
+				script.src = url;
+				document.head.appendChild(script);
+			}
+			addScript('https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js');
+			window.onload = function(){
+				var worker = html2pdf();  // Or:  var worker = new html2pdf.Worker;
+				const element = document.querySelector('.doc-a4');
+				var config = {
+				  margin:       0,
+				  filename:     'resume.pdf',
+				  image:        { type: 'jpeg', quality: 0.98 },
+				  html2canvas:  { scale: 2 },
+				  jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+				};
+				const docDownload = document.getElementById('doc-download');
+				docDownload.addEventListener('click', function(){
+					//worker.set(config).from(element).save();
+					worker.set(config).from(element).toContainer().toCanvas().toImg().toPdf().save()
+				});
+			}*/
+			const docDownload = document.getElementById('doc-download');
+			const element = document.querySelector('.doc-a4');
+			
+			
+			var useWidth = document.querySelector(".doc-a4").clientWidth;
+			var useHeight = document.querySelector(".doc-a4").clientHeight;
+			docDownload.addEventListener("click", function(){
+				element.classList.remove('with-before-after');
+				/*html2canvas(element, {
+						width: useWidth,
+						height: useHeight,
+						dpi: 300,
+							
+					}).then(function(canvas) {
+					document.body.appendChild(canvas);
+				});*/
+				
+				html2canvas(element, {
+					dpi: 300, // print ready capture
+					//scale:0.1,
+					allowTaint:true,
+					imageTimeout:0,
+					logging:true,
+					useCORS:true,
+					//width: useWidth,
+					//height: useHeight,
+					onrendered: function(canvas) {
+						document.body.appendChild(canvas);
+						element.classList.add('with-before-after');
+						/* canvas is the actual canvas element,
+						   to append it to the page call for example
+						   document.body.appendChild( canvas );
+						*/
+					}
+				});
+			});
+		
+		
+			
+			
+				/*html2canvas(element
+					).then(function(canvas) {
+										
+					const imgWidth = 992;
+					const pageHeight = 1403.2;
+					const imgHeight = 1403.2;
+					const heightLeft = imgHeight;
+					
+
+					const contentDataURL = canvas.toDataURL('image/png');
+					/*const pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+					const position = 0;
+					pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+					pdf.save('ikismail.pdf');
+					
+					var img = new Image();
+					img.src = contentDataURL;
+					document.body.appendChild(canvas);
+				});*/
+			//});
+			
+			
+	</script>
+ 
+    <!--<footer></footer>-->
+  </body>
+  </html>

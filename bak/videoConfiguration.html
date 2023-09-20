@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://webrtc.tools/media/css/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+     <script src="https://webrtc.tools/chat/js/adapter.js"></script>
+    <script src="https://webrtc.tools/js/videoConfiguration.js"></script>
+    <link href="https://webrtc.tools/media/css/videoConfiguration.css" rel="stylesheet" />
+</head>
+<body style="direction: ltr">
+<script>
+    const queryString = window.location.search;
+    function saveCon() {
+        saveConfiguration(1,"User.html"+queryString);
+    }
+</script>
+    <form method="post" action="/videoConfiguration.html" id="form1">
+
+        <center>
+
+
+
+
+
+                        <style>
+                           
+                        </style>
+                        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                        <link href="https://webrtc.tools/media/css/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+                        <div class="companyProfile" style="width: initial !important">
+                            <div class="companyBody">
+                                <div class="form">
+                                    <div class="rowForm companyName">
+                                        <div id="videoConfiguraionButton" class="bigButton" onclick="saveCon()">If you hear and see yourself, click here to continue! </div>
+                                        <div id="configurationFaild" class="bigButton">Your devices are blocked</div>
+                                        <div class="bigButton" onclick="openCamera()" id="openCameraButton" style="display: none">Click here to test your microphone and camera</div>
+                                        <div class="clear">
+                                        </div>
+                                    </div>
+                                    <div class="rowForm mainDiv2">
+                                        <div id="mediaChoose">
+                                            <div id="setSettings"><i class="fa fa-info-circle"></i>In case your have problems with one off the device please select diffrent on efrom the list</div>
+                                            <div class="mediaChooseDiv">
+                                                <label>
+                                                    Camera
+                                                </label>
+                                                <select id="videoDevice" class="selectMedia">
+                                                </select>
+                                            </div>
+                                            <div class="mediaChooseDiv">
+                                                <label>
+                                                    Microphone
+                                                </label>
+                                                <select id="audioDevice" class="selectMedia">
+                                                </select>
+                                            </div>
+                                            <div class="mediaChooseDiv">
+                                                <label>
+                                                    Speaker
+                                                </label>
+                                                <select id="audioOutput" class="selectMedia">
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="videoDiv">
+                                            <video id="localVideo" autoplay playsinline></video>
+                                        </div>
+                                        <div id="mediaData">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div id="ecoMessage">
+                                In case you don't use headphones, you will hear yourself. This situation won't accure during a real chat.
+                            </div>
+                            <div style="display: none">
+                                <div>
+                                    <label id="btnGetAudioTracks">
+                                        getAudioTracks()
+                                    </label>
+                                </div>
+                                <div>
+                                    <label id="btnGetTrackById">
+                                        getTrackById()
+                                    </label>
+                                </div>
+                                <div>
+                                    <label id="btnGetTracks">getTracks()</label>
+                                </div>
+                                <div>
+                                    <label id="btnGetVideoTracks">
+                                        getVideoTracks()
+                                    </label>
+                                </div>
+                                <div>
+                                    <label id="btnRemoveAudioTrack">
+                                        removeTrack() - audio
+                                    </label>
+                                </div>
+                                <div>
+                                    <label id="btnRemoveVideoTrack">
+                                        removeTrack() - video
+                                    </label>
+                                </div>
+                                <script src="https://webrtc.tools/media/webrtc/events.js"></script>
+                            </div>
+
+
+
+
+                            <!--<script src="https://webrtc.tools/media/webrtc/soundmeter.js"></script>-->
+                            <script src="https://webrtc.tools/media/webrtc/main.js"></script>
+
+
+                        </div>
+                        <script>
+                            
+
+
+                            $(document).ready(function () {
+                                navigator.mediaDevices.enumerateDevices()
+                                    .then(gotDevices).then(getStream).catch(handleError);
+                                audioDevice.onchange = getStream;
+                                videoDevice.onchange = getStream;
+                            });
+
+                            document.cookie = "videoSource=0";
+                            document.cookie = "audioSource=0";
+                            document.cookie = "audioOutput=0";
+                            console.log("--------------------");
+                            console.log("videoSource:" + getCookie("videoSource"));
+                            console.log("audioSource:" + getCookie("audioSource"));
+                            console.log("audioOutput:" + getCookie("audioOutput"));
+                            console.log("--------------------");
+                        </script>
+              
+
+           
+        </center>
+    </form>
+</body>
+</html>
