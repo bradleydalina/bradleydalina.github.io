@@ -102,7 +102,7 @@
               if (_validateCallback && typeof _validateCallback === "function") {
                   _validateCallback();
                 }
-              _button.classList.add('loading');
+			  self.isLoading(true);	
               if (!e.isTrusted && unTrusted) {
                 unTrusted.value = true;
               }
@@ -112,7 +112,7 @@
                 _form.reportValidity();
                 if (_options.log) console.table(self.getData());
                 setTimeout(() => {
-                  _button.classList.remove('loading');
+                  self.isLoading(false);	
                   //self.enable();
                 }, 500);
                 _errors.push(self.getValidationErrors());
@@ -136,10 +136,10 @@
               if (_successCallback && typeof _successCallback === "function") {
                   e.preventDefault();
                   _successCallback(self.getData());
-                  _button.classList.remove('loading');
+                  self.isLoading(false);
                 }
               if (_options.log) console.table(self.getData());
-              _button.classList.remove('loading');
+              self.isLoading(false);
             });
       }
     function _setupListeners(_i) {      
@@ -444,6 +444,18 @@
           }
         return path.join(" > ");
       }
+    this.isLoading(indicator=true){
+		if (_button instanceof HTMLElement &&
+          _button &&
+          _button.nodeType === 1 &&
+          typeof _button.nodeName === 'string') {
+			if(indicator){
+				_button.classList.add('loading');
+			}else{
+				_button.classList.remove('loading');
+			}
+		}
+	}
     this.addValidator = function (_i, _r) {
         if (Array.isArray(_i)) {
             if (_i.every(_isPlainObject)) {
