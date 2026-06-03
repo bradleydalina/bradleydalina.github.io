@@ -263,7 +263,7 @@
 	                                  ${_cStyle} textarea:autofill:valid{
 	                                        /*padding-right: calc(1.5em + .75rem) !important;*/
 	                                        background-color: white !important;
-	                                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 12 12'%3E%3Cpath fill='%23038205' d='M6 0C2.69 0 0 2.69 0 6s2.69 6 6 6s6-2.69 6-6s-2.69-6-6-6m3.44 4.94l-3.5 3.5c-.12.12-.28.18-.44.18s-.32-.06-.44-.18l-2-2c-.24-.24-.24-.64 0-.88s.64-.24.88 0L5.5 7.12l3.06-3.06c.24-.24.64-.24.88 0c.25.24.25.64 0 .88'/%3E%3C/svg%3E") !important;
+	                                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 12 12'%3E%3Cpath fill='%232563eb' d='M6 0C2.69 0 0 2.69 0 6s2.69 6 6 6s6-2.69 6-6s-2.69-6-6-6m3.44 4.94l-3.5 3.5c-.12.12-.28.18-.44.18s-.32-.06-.44-.18l-2-2c-.24-.24-.24-.64 0-.88s.64-.24.88 0L5.5 7.12l3.06-3.06c.24-.24.64-.24.88 0c.25.24.25.64 0 .88'/%3E%3C/svg%3E") !important;
 	                                        background-repeat: no-repeat !important;
 	                                        background-position: right calc(.375em + .1875rem) center !important;
 	                                        background-size: calc(.75em + .375rem) calc(.75em + .375rem) !important;
