@@ -444,12 +444,12 @@
           }
         return path.join(" > ");
       }
-    this.isLoading(indicator=true){
+    this.isLoading = function(i=true){
 		if (_button instanceof HTMLElement &&
           _button &&
           _button.nodeType === 1 &&
           typeof _button.nodeName === 'string') {
-			if(indicator){
+			if(i){
 				_button.classList.add('loading');
 			}else{
 				_button.classList.remove('loading');
