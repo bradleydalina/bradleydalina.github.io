@@ -291,7 +291,7 @@
 	                                    }
 	                                  ${_cStyle} button[type='submit'].loading, ${_cStyle} input[type='submit'].loading{
 	                                      position:relative;
-	                                      padding-right:40px;
+	                                      padding-right:0px;
 	                                      transition: padding 150ms linear;
 	                                      display: inline-flex;
 	                                      align-items: center;
