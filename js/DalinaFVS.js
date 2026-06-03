@@ -232,6 +232,7 @@
 	                                        background-size: calc(.75em + .375rem) calc(.75em + .375rem) !important;
 	                                        appearance: none !important;
 	                                        -webkit-appearance: none !important;
+											transition:none;
 	                                      }
 	                                  ${_cStyle} textarea.invalid,${_cStyle} textarea:user-invalid{background-position: right calc(.375em + .1875rem) top 10px !important;}
 	                                  ${_cStyle} input.valid:-webkit-autofill,
@@ -268,9 +269,11 @@
 	                                        background-size: calc(.75em + .375rem) calc(.75em + .375rem) !important;
 	                                        appearance: none !important;
 	                                        -webkit-appearance: none !important;
+											transition:none;
 	                                    }
 										.__formDalinaFVS textarea:user-valid, .__formDalinaFVS textarea:valid, .__formDalinaFVS textarea.valid, .__formDalinaFVS textarea.valid:autofill, .__formDalinaFVS textarea:autofill:valid{
     										background-position: right calc(.375em + .1875rem) top 10px !important;
+											transition:none;
 										}										
 	                                  ${_cStyle} textarea.valid:autofill, ${_cStyle} textarea.valid,${_cStyle} textarea:user-valid,${_cStyle} textarea:valid,${_cStyle} textarea:autofill:valid{background-position: right calc(.375em + .1875rem) top 10px;}
 	                                  ${_cStyle} button[type='submit'], ${_cStyle} input[type='submit']{
